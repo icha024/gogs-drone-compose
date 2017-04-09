@@ -5,15 +5,15 @@ services:
   gogs:
     image: gogs/gogs:0.10.18
     ports:
-      - "3000:3000"
+      # - "3000:3000"
       - "10022:22"
     volumes:
       - /var/lib/gogs:/data
     restart: always
   drone-server:
     image: drone/drone:0.5.0
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "8000:8000"
     volumes:
       - /var/lib/drone:/var/lib/drone/
     restart: always
@@ -43,7 +43,11 @@ services:
     image: library/haproxy:1.7
     ports:
       - "8080:8080"
-    depends_on: [ drone-server ]
+      - "8081:8081"
+      # - "8000:8000"
+    depends_on:
+      - gogs
+      - drone-server 
     volumes:
       - ./:/usr/local/etc/haproxy:ro
     restart: always
