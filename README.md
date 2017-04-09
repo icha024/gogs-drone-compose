@@ -24,7 +24,8 @@ http://localhost:8080
 
 #### Restart 
 Sometimes Drone is slow to detect, try restarting with `docker-compose up`
-(A repo will be deteted one it's created, but the Git hook will only activate when `.drone.yml` is created on the repository)
+
+(A repo will be deteted once it's created, but the Git hook will only activate when `.drone.yml` is created on the repository)
 
 ### HA Proxy
 HA Proxy rewrite the git hook name to the internal docker-compose name, otherwise it would be localhost: https://github.com/drone/drone/blob/240f2a8ec520003a6c7a66a7236a742d4d665a06/shared/httputil/httputil.go#L50
