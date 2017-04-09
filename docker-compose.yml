@@ -22,12 +22,12 @@ services:
       - DRONE_GOGS=true
       - DRONE_SECRET=cGxlRuQXmF
       - DRONE_GOGS_URL=http://gogs:3000
-      - DRONE_OPEN=true
-      # - DRONE_OPEN=false
+      # - DRONE_OPEN=true
+      - DRONE_OPEN=false
       - DRONE_ADMIN=ian
       - DRONE_GOGS_PRIVATE_MODE=true
       # - DRONE_GOGS_GIT_USERNAME=ian
-      # - DRONE_GOGS_GIT_PASSWORD=chan
+      # - DRONE_GOGS_GIT_PASSWORD=
       - DRONE_GOGS_SKIP_VERIFY=true
   drone-agent:
     image: drone/drone:0.5.0
@@ -44,7 +44,6 @@ services:
     ports:
       - "8080:8080"
       - "8081:8081"
-      # - "8000:8000"
     depends_on:
       - gogs
       - drone-server 
