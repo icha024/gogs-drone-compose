@@ -9,7 +9,7 @@ mkdir /var/lib/drone
 docker-compose up
 ```
 
-##### Configure Gogs:
+#### Configure Gogs:
 http://localhost:8081
 - Use SQLite3
 - Set SSH port to (blank) and disable it.
@@ -18,11 +18,11 @@ http://localhost:8081
 - (Recommended) Disable 'Self registration'
 - (Recommended) Enable 'Require sign in to view page'
 
-##### Configure Drone:
+#### Configure Drone:
 http://localhost:8080
 
 
-##### Restart 
+#### Restart 
 Sometimes Drone is slow to detect, try restarting with `docker-compose up`
 (A repo will be deteted one it's created, but the Git hook will only activate when `.drone.yml` is created on the repository)
 
