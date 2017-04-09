@@ -22,8 +22,8 @@ services:
       - DRONE_GOGS=true
       - DRONE_SECRET=cGxlRuQXmF
       - DRONE_GOGS_URL=http://gogs:3000
-      # - DRONE_OPEN=true
-      - DRONE_OPEN=false
+      - DRONE_OPEN=true
+      # - DRONE_OPEN=false
       - DRONE_ADMIN=ian
       - DRONE_GOGS_PRIVATE_MODE=true
       # - DRONE_GOGS_GIT_USERNAME=ian
