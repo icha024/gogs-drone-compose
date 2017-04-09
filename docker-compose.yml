@@ -10,6 +10,8 @@ services:
     volumes:
       - /var/lib/gogs:/data
     restart: always
+    environment:
+      - DISABLE_SSH=true
   drone-server:
     image: drone/drone:0.5.0
     # ports:

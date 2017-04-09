@@ -12,10 +12,9 @@ docker-compose up
 Configure Gogs:
 http://localhost:8081
 - Use SQLite3
-- Set SSH port to 10022
-- Set 'Application URL' to use your `hostname:8081`
+- Set SSH port to (blank) and disable it.
+- Set 'Application URL' to your hostname and port 8081 (`localhost:8081`)
 - Create admin user 'ian'
-- (Recommended) Enable 'Use builtin SSH server'
 - (Recommended) Disable 'Self registration'
 - (Recommended) Enable 'Require sign in to view page'
 
