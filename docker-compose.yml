@@ -1,6 +1,7 @@
 version: '2'
 
 services:
+
   gogs:
     image: gogs/gogs:0.10.18
     ports:
@@ -28,7 +29,6 @@ services:
       # - DRONE_GOGS_GIT_USERNAME=ian
       # - DRONE_GOGS_GIT_PASSWORD=chan
       - DRONE_GOGS_SKIP_VERIFY=true
-
   drone-agent:
     image: drone/drone:0.5.0
     command: agent
@@ -39,3 +39,11 @@ services:
     environment:
       - DRONE_SECRET=cGxlRuQXmF
       - DRONE_SERVER=ws://drone-server:8000/ws/broker
+  haproxy:
+    image: library/haproxy:1.7
+    ports:
+      - "8080:8080"
+    depends_on: [ drone-server ]
+    volumes:
+      - ./:/usr/local/etc/haproxy:ro
+    restart: always
