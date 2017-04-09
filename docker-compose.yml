@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+  gogs:
+    image: gogs/gogs:0.10.18
+    ports:
+      - "3000:3000"
+      - "10022:22"
+    volumes:
+      - /var/lib/gogs:/data
+    restart: always
+  drone-server:
+    image: drone/drone:0.5.0
+    ports:
+      - "8000:8000"
+    volumes:
+      - /var/lib/drone:/var/lib/drone/
+    restart: always
+    depends_on: [ gogs ]
+    environment:
+      - DRONE_GOGS=true
+      - DRONE_SECRET=cGxlRuQXmF
+      - DRONE_GOGS_URL=http://gogs:3000
+      - DRONE_OPEN=true
+      # - DRONE_OPEN=false
+      - DRONE_ADMIN=ian
+      - DRONE_GOGS_PRIVATE_MODE=true
+      # - DRONE_GOGS_GIT_USERNAME=ian
+      # - DRONE_GOGS_GIT_PASSWORD=chan
+      - DRONE_GOGS_SKIP_VERIFY=true
+
+  drone-agent:
+    image: drone/drone:0.5.0
+    command: agent
+    restart: always
+    depends_on: [ drone-server ]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DRONE_SECRET=cGxlRuQXmF
+      - DRONE_SERVER=ws://drone-server:8000/ws/broker
