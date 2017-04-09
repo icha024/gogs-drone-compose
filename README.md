@@ -28,3 +28,6 @@ Sometimes Drone is slow to detect, try restarting with `docker-compose up`
 
 ### HA Proxy
 HA Proxy rewrite the git hook name to the internal docker-compose name, otherwise it would be localhost: https://github.com/drone/drone/blob/240f2a8ec520003a6c7a66a7236a742d4d665a06/shared/httputil/httputil.go#L50
+
+ToDo:
+- [ ] SSL on proxy
