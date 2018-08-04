@@ -1,54 +1,39 @@
 version: '2'
 
 services:
-
   gogs:
-    image: gogs/gogs:0.10.18
+    image: gogs/gogs
+    volumes:
+    - ./gogs:/data
     ports:
-      # - "3000:3000"
-      - "10022:22"
-    volumes:
-      - /var/lib/gogs:/data
-    restart: always
-    environment:
-      - DISABLE_SSH=true
+    # - "10022:22"
+    - "3000:3000"
+
   drone-server:
-    image: drone/drone:0.5.0
-    # ports:
-    #   - "8000:8000"
+    image: drone/drone:0.8
+    ports:
+      - "8000:8000"
+      - "9000:9000"
     volumes:
-      - /var/lib/drone:/var/lib/drone/
+      - ./drone:/var/lib/drone/
     restart: always
-    depends_on: [ gogs ]
     environment:
-      - DRONE_GOGS=true
-      - DRONE_SECRET=cGxlRuQXmF
-      - DRONE_GOGS_URL=http://gogs:3000
       - DRONE_OPEN=true
-      # - DRONE_OPEN=false
-      - DRONE_ADMIN=ian
-      - DRONE_GOGS_PRIVATE_MODE=true
-      # - DRONE_GOGS_GIT_USERNAME=ian
-      # - DRONE_GOGS_GIT_PASSWORD=
-      - DRONE_GOGS_SKIP_VERIFY=true
+      - DRONE_HOST=http://${HOST}:8000
+      - DRONE_GOGS_URL=http://${HOST}:3000
+      - DRONE_DEBUG=true
+      - DRONE_SECRET=ALQU2M0KdptXUdTPKcEw
+      - DRONE_GOGS=true
+      - DRONE_GOGS_SKIP_VERIFY=false
+
   drone-agent:
-    image: drone/drone:0.5.0
-    command: agent
+    image: drone/agent:0.8
     restart: always
-    depends_on: [ drone-server ]
+    depends_on:
+      - drone-server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - DRONE_SECRET=cGxlRuQXmF
-      - DRONE_SERVER=ws://drone-server:8000/ws/broker
-  haproxy:
-    image: library/haproxy:1.7
-    ports:
-      - "8080:8080"
-      - "8081:8081"
-    depends_on:
-      - gogs
-      - drone-server 
-    volumes:
-      - ./:/usr/local/etc/haproxy:ro
-    restart: always
+      - DRONE_SERVER=drone-server:9000
+      - DRONE_SECRET=ALQU2M0KdptXUdTPKcEw
+      - DRONE_DEBUG=true
