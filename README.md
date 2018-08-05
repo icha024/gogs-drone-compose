@@ -2,33 +2,29 @@
 
 ### Setup on Ubuntu
 
-Note: you may need to update docker: `sudo pip install docker`
 ```
-mkdir /var/lib/gogs
-mkdir /var/lib/drone
 docker-compose up
 ```
 
-#### Configure Gogs:
-http://localhost:8081
+### Configure Gogs:
+http://localhost:3000
 - Use SQLite3
 - Set SSH port to (blank) and disable it.
-- Set 'Application URL' to your hostname and port 8081 (`localhost:8081`)
-- Create admin user 'ian'
+- Set 'Application URL' to your hostname and port 3000 (`my-host-name:3000`)
+- Create admin user
 - (Recommended) Disable 'Self registration'
-- (Recommended) Enable 'Require sign in to view page'
 
-#### Configure Drone:
-http://localhost:8080
+**IMPORTANT:** The application URL hostname must not be 'localhost' because it need to be resolvable from the Drone agent. Use your machine's hostname instead. On Linux you may use the `hostname` command.
 
+### Configure Drone:
+http://localhost:8000
 
-#### Restart 
-Sometimes Drone is slow to detect, try restarting with `docker-compose up`
+Use your Gogs admin username/password to login.
 
-(A repo will be deteted once it's created, but the Git hook will only activate when `.drone.yml` is created on the repository)
+Once are repository is created in Gogs, it will show up here with the option to switch 'on'. Then a `.drone.yml` file is needed to actually do a build.
 
-### HA Proxy
-HA Proxy rewrite the git hook name to the internal docker-compose name, otherwise it would be localhost: https://github.com/drone/drone/blob/240f2a8ec520003a6c7a66a7236a742d4d665a06/shared/httputil/httputil.go#L50
+## Known issue:
+- Drone doesn't seem be able to clone via HTTP when 'Require sign in to view page' options is enabled on Gogs.
 
-ToDo:
-- [ ] SSL on proxy
+## ToDo:
+- [ ] Map Git SSH port and test it.
